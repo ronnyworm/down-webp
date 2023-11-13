@@ -24,18 +24,22 @@ def download_png_images(url, folder_path, quality):
 
 
     # Download and save each PNG image
+    index = 0
     for img in png_images:
         img_url = img['src']
 
-        if not img_url.startswith('http://') and not img_url.startswith('https://'):
+        if img_url.startswith('//'):
             img_url = 'https://' + img_url
             img_url = img_url.replace('////', '//')
+        elif not img_url.startswith('http://') and not img_url.startswith('https://'):
+            img_url = url + '/' + img_url
 
         response = requests.get(img_url)
 
         if response.status_code == 200:
             # Extract the image filename from the URL
-            img_filename = os.path.join(folder_path, os.path.basename(img_url))
+            img_filename = os.path.join(folder_path, str(index).zfill(3) + '-' + os.path.basename(img_url))
+            index += 1
 
             # Save the image as PNG
             with open(img_filename, 'wb') as f:
@@ -67,4 +71,7 @@ if __name__ == '__main__':
     else:
         quality = 75
 
-    download_png_images(url, 'tmp-images-' + str(quality), quality)
+    url_without_http = url.replace('http://', '').replace('https://', '')
+    url_cleaned = url_without_http.replace('/', '_')
+
+    download_png_images(url, url_cleaned + '-images-' + str(quality), quality)
