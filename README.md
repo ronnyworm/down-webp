@@ -1,17 +1,22 @@
 # Download images from url and convert to webp
-Kann auch bei Bedarf eine Kompression durchführen.
+Also performs compression by default.
 
-## Installieren
+## Install
 	pip install -r requirements.txt
 
-## Ausführen
-Speichert die Bilder im Ordner (url)-images-75 (Standardqualitätlevel ist 75)
+## Execute
+Saves the images in the folder (url)-images-75 (default quality level is 75)
 
 	python3 down-webp.py URL
 
-Die Qualität kann noch als zusätzlicher Parameter mitgegeben werden (1-95), dann wird es in einem anderen Ordner gespeichert. Beispiel:
+The quality can be specified as an additional parameter (1-95), then it will be saved in a different folder. Example:
 
 	python3 down-webp.py URL 50
-	# speichert Bilder in (url)-images-50
+	# saves images in (url)-images-50
 
-Die Bilder haben ein Präfix (Reihenfolge des Bildes).
+The images have a prefix (order of the image).
+
+## Image file types
+converted to lowercase automatically
+
+	['png', 'jpeg', 'jpg', 'webp']

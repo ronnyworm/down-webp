@@ -19,13 +19,15 @@ def download_png_images(url, folder_path, quality):
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Find all image tags with the ".png" extension
-    png_images = soup.find_all('img', src=lambda x: x and (x.endswith('.png') or x.endswith('.jpeg') or x.endswith('.jpg') or x.endswith('.webp')))
-
+    # Find all image tags with the relevant extensions
+    relevant_extensions = ['png', 'jpeg', 'jpg', 'webp']
+    def is_relevant_extension(x):
+        return x and any(x.lower().endswith(ext) for ext in relevant_extensions)
+    images = soup.find_all('img', src=is_relevant_extension)
 
     # Download and save each PNG image
     index = 0
-    for img in png_images:
+    for img in images:
         img_url = img['src']
 
         if img_url.startswith('//'):
