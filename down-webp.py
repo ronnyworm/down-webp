@@ -20,7 +20,7 @@ def download_png_images(url, folder_path, quality):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Find all image tags with the ".png" extension
-    png_images = soup.find_all('img', src=lambda x: x and (x.endswith('.png') or x.endswith('.jpeg') or x.endswith('.jpg')))
+    png_images = soup.find_all('img', src=lambda x: x and (x.endswith('.png') or x.endswith('.jpeg') or x.endswith('.jpg') or x.endswith('.webp')))
 
 
     # Download and save each PNG image
