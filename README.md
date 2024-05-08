@@ -4,6 +4,8 @@ Also performs compression by default.
 ## Install
 	pip install -r requirements.txt
 
+It's recommended to use [venv](https://docs.python.org/3/library/venv.html)
+
 ## Execute
 See full parameter documentation like this:
 
