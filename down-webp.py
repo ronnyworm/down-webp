@@ -3,6 +3,7 @@ import argparse as ap
 from bs4 import BeautifulSoup
 from PIL import Image
 from io import BytesIO
+from urllib.parse import urlparse
 
 # Function to download and save PNG images from a URL to a folder
 def download_png_images(url, folder_path, quality, prefix, makewebp):
@@ -29,7 +30,7 @@ def download_png_images(url, folder_path, quality, prefix, makewebp):
         return x and any(x.lower().endswith(ext) for ext in relevant_extensions)
     images = soup.find_all('img', src=is_relevant_extension)
 
-    # Download and save each PNG image
+    # Download and save each image
     index = 0
     for img in images:
         img_url = img['src']
@@ -38,7 +39,9 @@ def download_png_images(url, folder_path, quality, prefix, makewebp):
             img_url = 'https://' + img_url
             img_url = img_url.replace('////', '//')
         elif not img_url.startswith('http://') and not img_url.startswith('https://'):
-            img_url = url + '/' + img_url
+            parsed_url = urlparse(url)
+            base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+            img_url = base_url + '/' + img_url
 
         response = requests.get(img_url)
 
@@ -64,16 +67,20 @@ def download_png_images(url, folder_path, quality, prefix, makewebp):
                 target_filename = img_filename
             target_filename = target_filename.replace('-down', '-compressed')
 
-            image = Image.open(img_filename)
+            try:
+                image = Image.open(img_filename)
 
-            image.save(
-                target_filename,
-                format_param,
-                quality=quality,
-                method=6
-            )
+                image.save(
+                    target_filename,
+                    format_param,
+                    quality=quality,
+                    method=6
+                )
 
-            print(f", converted")
+                print(f", converted")
+            except Exception as e:
+                print(f", skipped because of error: {type(e)}: {e}")
+
 
 
 class MyParser(ap.ArgumentParser):
@@ -99,5 +106,6 @@ if __name__ == '__main__':
 
     url_without_http = args.url.replace('http://', '').replace('https://', '')
     url_cleaned = url_without_http.replace('/', '_')
+    url_cleaned = url_cleaned.replace(':', '-')
 
     download_png_images(args.url, url_cleaned + '-images-' + str(args.quality), args.quality, not args.no_prefix, not args.no_webp)

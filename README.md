@@ -1,4 +1,6 @@
 # Download images from url and convert to webp
+Caution! Does not download and compress CSS background images (yet)
+
 Also performs compression by default.
 
 ## Install
