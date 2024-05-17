@@ -1,4 +1,6 @@
 # Download images from url and convert to webp
+**Don't use services like TinyPNG, CloudConvert or Convertio with accounts and payments -> do it on your machine!**
+
 Caution! Does not download and compress CSS background images (yet)
 
 Also performs compression by default.
@@ -23,9 +25,9 @@ The quality can be specified as an additional parameter (1-95), then it will be 
 	# saves downloaded images in (url)-images-50-down
 	# saves compressed images in (url)-images-50-compressed
 
-The images have a prefix (order of the image). If this is not desired, call the script as follows:
+The images can have a prefix (order of the image) if you need this. In that case, call the script as follows:
 
-	python3 down-webp.py --url URL --no_prefix True
+	python3 down-webp.py --url URL --add_prefix True
 
 If the files should not be converted to webp, also add this parameter:
 

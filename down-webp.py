@@ -93,7 +93,7 @@ if __name__ == '__main__':
     p = MyParser(description="Configuration", formatter_class=ap.ArgumentDefaultsHelpFormatter)
     p.add_argument("--url", help="URL", required=True)
     p.add_argument("--quality", type=int, default=75, help="Quality level - 75 is default and sufficient, max is 100") # default is printed
-    p.add_argument("--no_prefix", type=bool, default=False, help="Should the script NOT add a prefix to the compressed files so that it's clear in which order they appeared on the original page?")
+    p.add_argument("--prefix", type=bool, default=False, help="Should the script add a prefix to the compressed files so that it's clear in which order they appeared on the original page?")
     p.add_argument("--no_webp", type=bool, default=False, help="Should the script NOT convert all to webp after compressing?")
 
     import sys
@@ -108,4 +108,4 @@ if __name__ == '__main__':
     url_cleaned = url_without_http.replace('/', '_')
     url_cleaned = url_cleaned.replace(':', '-')
 
-    download_png_images(args.url, url_cleaned + '-images-' + str(args.quality), args.quality, not args.no_prefix, not args.no_webp)
+    download_png_images(args.url, url_cleaned + '-images-' + str(args.quality), args.quality, args.prefix, not args.no_webp)
