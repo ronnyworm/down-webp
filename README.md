@@ -35,6 +35,11 @@ If the files should not be converted to webp, also add this parameter:
 
 	--no_webp True
 
+## Single file mode
+Use this to convert and compress a local file
+
+	python3 down-webp.py --file FILENAME
+
 ## Image file types
 converted to lowercase automatically
 
