@@ -6,7 +6,7 @@ from io import BytesIO
 from urllib.parse import urlparse
 
 # Function to download and save PNG images from a URL to a folder
-def download_png_images(url, folder_path, quality, prefix, makewebp):
+def download_png_images(url, folder_path, quality, prefix, makewebp, user_agent):
     # Create the folder if it doesn't exist
     folder_down_path = folder_path + '-down'
     folder_compressed_path = folder_path + '-compressed'
@@ -14,7 +14,10 @@ def download_png_images(url, folder_path, quality, prefix, makewebp):
     os.makedirs(folder_compressed_path, exist_ok=True)
 
     # Send an HTTP GET request to the URL
-    response = requests.get(url)
+    headers = {
+        'User-Agent': user_agent,
+    }
+    response = requests.get(url, headers=headers)
 
     # Check if the request was successful
     if response.status_code != 200:
@@ -95,6 +98,7 @@ if __name__ == '__main__':
     p.add_argument("--quality", type=int, default=75, help="Quality level - 75 is default and sufficient, max is 100") # default is printed
     p.add_argument("--prefix", type=bool, default=False, help="Should the script add a prefix to the compressed files so that it's clear in which order they appeared on the original page?")
     p.add_argument("--no_webp", type=bool, default=False, help="Should the script NOT convert all to webp after compressing?")
+    p.add_argument("--user_agent", default='python-requests/2.31.0', help="Specify your own user agent if needed")
 
     import sys
     if len(sys.argv)==1:
@@ -108,4 +112,4 @@ if __name__ == '__main__':
     url_cleaned = url_without_http.replace('/', '_')
     url_cleaned = url_cleaned.replace(':', '-')
 
-    download_png_images(args.url, url_cleaned + '-images-' + str(args.quality), args.quality, args.prefix, not args.no_webp)
+    download_png_images(args.url, url_cleaned + '-images-' + str(args.quality), args.quality, args.prefix, not args.no_webp, args.user_agent)
