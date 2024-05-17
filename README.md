@@ -1,5 +1,7 @@
-# Download images from url and convert to webp
-**Don't use services like TinyPNG, CloudConvert or Convertio with accounts and payments -> do it on your machine!**
+# down-webp
+Batch download images from url and convert to webp. **Don't use services like TinyPNG, CloudConvert or Convertio with accounts and payments -> do it on your machine!**
+
+![](hero.png)
 
 Caution! Does not download and compress CSS background images (yet)
 
